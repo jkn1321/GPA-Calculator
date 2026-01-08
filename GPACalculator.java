@@ -18,18 +18,34 @@ public class GPACalculator {
             }
         } while (subjects <= 0);
 
+        String[] subjectNames = new String[subjects];
+
         for (int i = 1; i <= subjects; i++) {
 
             System.out.println("\nSubject " + i);
 
             String subjectName;
+            boolean isDuplicate;
             do {
+                isDuplicate = false;
                 System.out.print("Enter Subject Name: ");
                 subjectName = sc.next();
                 if (subjectName.trim().isEmpty()) {
                     System.out.println(" - Subject name cannot be empty!\n");
+                } else {
+                    // Check for duplicate
+                    for (int j = 0; j < i - 1; j++) {
+                        if (subjectNames[j].equalsIgnoreCase(subjectName)) {
+                            System.out.println(
+                                    " - Subject '" + subjectName + "' already exists! Please use a different name.\n");
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
                 }
-            } while (subjectName.trim().isEmpty());
+            } while (subjectName.trim().isEmpty() || isDuplicate);
+
+            subjectNames[i - 1] = subjectName;
 
             String grade;
             double gradePoint = 0;
@@ -95,6 +111,11 @@ public class GPACalculator {
                         gradePoint = 0.00;
                         status = "Repeat";
                         break;
+                    case "NC":
+                    case "NON CREDIT":
+                        gradePoint = 0.00;
+                        status = "Non Credit";
+                        break;
                     case "MC":
                         gradePoint = 0.00;
                         status = "MC";
@@ -107,13 +128,19 @@ public class GPACalculator {
             } while (!validGrade);
 
             int credit;
-            do {
-                System.out.print("Enter credit value: ");
-                credit = sc.nextInt();
-                if (credit <= 0) {
-                    System.out.println(" - Credit value must be greater than 0!\n");
-                }
-            } while (credit <= 0);
+            // For NC grades, automatically set credit to 0
+            if ("Non Credit".equals(status)) {
+                credit = 0;
+                System.out.println("Credit value: 0 (Non Credit)");
+            } else {
+                do {
+                    System.out.print("Enter credit value: ");
+                    credit = sc.nextInt();
+                    if (credit <= 0) {
+                        System.out.println(" - Credit value must be greater than 0!\n");
+                    }
+                } while (credit <= 0);
+            }
 
             System.out.println("Status: " + status);
 

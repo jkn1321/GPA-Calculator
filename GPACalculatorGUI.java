@@ -87,7 +87,8 @@ public class GPACalculatorGUI extends JFrame {
         gradeLabel.setForeground(TEXT_COLOR);
         gradeLabel.setPreferredSize(new Dimension(120, 25));
         gradePanel.add(gradeLabel);
-        String[] grades = { "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "E", "F", "MC" };
+        String[] grades = { "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "E", "F", "MC",
+                "Non Credit(NC)" };
         gradeCombo = new JComboBox<>(grades);
         gradeCombo.setFont(new Font("Arial", Font.PLAIN, 14));
         gradeCombo.setPreferredSize(new Dimension(550, 35));
@@ -107,6 +108,23 @@ public class GPACalculatorGUI extends JFrame {
         creditCombo.setFont(new Font("Arial", Font.PLAIN, 14));
         creditCombo.setPreferredSize(new Dimension(550, 35));
         creditPanel.add(creditCombo);
+        inputPanel.add(creditPanel);
+
+        // Add listener to grade combo to change credit options
+        gradeCombo.addActionListener(e -> {
+            String selectedGrade = (String) gradeCombo.getSelectedItem();
+            creditCombo.removeAllItems();
+            if ("Non Credit(NC)".equals(selectedGrade)) {
+                creditCombo.addItem("0");
+                creditCombo.setEnabled(false);
+            } else {
+                creditCombo.setEnabled(true);
+                creditCombo.addItem("1");
+                creditCombo.addItem("2");
+                creditCombo.addItem("3");
+                creditCombo.addItem("4");
+            }
+        });
         inputPanel.add(creditPanel);
 
         JPanel inputContainer = new JPanel(new BorderLayout());
@@ -256,6 +274,20 @@ public class GPACalculatorGUI extends JFrame {
             return;
         }
 
+        // Check for duplicate subject name
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String existingName = (String) tableModel.getValueAt(i, 0);
+            if (existingName.equalsIgnoreCase(subjectName)) {
+                JOptionPane.showMessageDialog(this,
+                        "Subject '" + subjectName + "' already exists! Please use a different name.",
+                        "Duplicate Subject",
+                        JOptionPane.WARNING_MESSAGE);
+                nameField.requestFocus();
+                nameField.selectAll();
+                return;
+            }
+        }
+
         // Get values from combo boxes
         String grade = (String) gradeCombo.getSelectedItem();
         int credit = Integer.parseInt((String) creditCombo.getSelectedItem());
@@ -319,6 +351,10 @@ public class GPACalculatorGUI extends JFrame {
             case "MC":
                 gradePoint = 0.00;
                 status = "MC 🤒";
+                break;
+            case "Non Credit(NC)":
+                gradePoint = 0.00;
+                status = "Non Credit";
                 break;
             default:
                 gradePoint = 0.00;
