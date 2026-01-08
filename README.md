@@ -16,6 +16,10 @@ A modern, user-friendly Java Swing application for calculating Grade Point Avera
 - **Detailed Summary Table** - View all subjects with Grade, GPV, Credit, Total, and Status
 - **Running Totals** - Track total points and total credits in real-time
 
+### GUI Screenshot
+
+![GPA Calculator GUI](GUI.png)
+
 ### Console Version (GPACalculator.java)
 - **Input Validation** - Comprehensive validation for all user inputs
 - **Duplicate Prevention** - Prevents entering subjects with the same name
