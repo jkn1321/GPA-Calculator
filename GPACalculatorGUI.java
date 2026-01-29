@@ -51,9 +51,15 @@ public class GPACalculatorGUI extends JFrame {
 
         // Input section heading
         JLabel inputHeading = new JLabel("GPA Calculator", JLabel.CENTER);
-        inputHeading.setFont(new Font("Arial", Font.BOLD, 18));
+        inputHeading.setFont(new Font("Arial", Font.BOLD, 20));
         inputHeading.setForeground(TEXT_COLOR);
         inputHeading.setBorder(new EmptyBorder(5, 0, 10, 0));
+
+        // Developer name Section
+        JLabel developerNameLabel = new JLabel("Developed by Januli Nanayakkara", JLabel.CENTER);
+        developerNameLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        developerNameLabel.setForeground(TEXT_COLOR);
+        developerNameLabel.setBorder(new EmptyBorder(0, 0, 10, 0));
 
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
@@ -61,6 +67,13 @@ public class GPACalculatorGUI extends JFrame {
         inputPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(189, 195, 199), 1),
                 new EmptyBorder(25, 30, 25, 30)));
+
+        // Add heading and developer name to the input container
+        JPanel inputContainer = new JPanel(new BorderLayout());
+        inputContainer.setBackground(BACKGROUND_COLOR);
+        inputContainer.add(inputHeading, BorderLayout.NORTH);
+        inputContainer.add(developerNameLabel, BorderLayout.CENTER);
+        inputContainer.add(inputPanel, BorderLayout.SOUTH);
 
         // Subject Name
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -126,11 +139,6 @@ public class GPACalculatorGUI extends JFrame {
             }
         });
         inputPanel.add(creditPanel);
-
-        JPanel inputContainer = new JPanel(new BorderLayout());
-        inputContainer.setBackground(BACKGROUND_COLOR);
-        inputContainer.add(inputHeading, BorderLayout.NORTH);
-        inputContainer.add(inputPanel, BorderLayout.CENTER);
 
         mainInputPanel.add(inputContainer, BorderLayout.CENTER);
 
